@@ -7,6 +7,11 @@ requires = [
     "pyramid",
     ]
 
+tests_require = [
+    "pytest",
+    "pytest-cov",
+    ]
+
 long_description = (
     open('README.txt').read()
     + '\n' +
@@ -38,6 +43,10 @@ setup(name='rebecca.view',
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
+      tests_require=tests_require,
+      extras_require={
+        "testing": tests_require,
+        },
       entry_points="""
       # -*- Entry points: -*-
       """,
