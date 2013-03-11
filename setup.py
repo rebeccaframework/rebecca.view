@@ -5,6 +5,7 @@ version = '0.2'
 
 requires = [
     "pyramid",
+    "six",
     ]
 
 tests_require = [

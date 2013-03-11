@@ -1,1 +1,2 @@
 pyramid==1.4
+testfixtures==3.0.0

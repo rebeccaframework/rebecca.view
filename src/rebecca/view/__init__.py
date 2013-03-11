@@ -1,4 +1,5 @@
 from pyramid.httpexceptions import HTTPFound, HTTPBadRequest
+from six import reraise
 
 class Softification(object):
     def __init__(self, targets, replacer):
@@ -15,7 +16,7 @@ class Softification(object):
         if isinstance(exc_val, self.targets):
             raise self.replacer()
 
-        raise exc_type, exc_val, exc_tb
+        reraise(exc_type, exc_val, exc_tb)
 
 
 class BaseView(object):
