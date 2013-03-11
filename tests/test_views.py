@@ -1,5 +1,7 @@
 import pytest
 from pyramid import testing
+from testfixtures import ShouldRaise
+
 
 class TestBaseView(object):
     @pytest.fixture
@@ -14,6 +16,7 @@ class TestBaseView(object):
 
         assert result.context == context
         assert result.request == request
+
 
 class TestViewSupport(object):
     @pytest.fixture
@@ -91,3 +94,33 @@ class TestViewSupport(object):
 
         result = view_support.action_dispatch('default')
         assert result.status_int == 400
+
+
+class TestSoftification(object):
+
+    @pytest.fixture
+    def target(self):
+        from rebecca.view import Softification
+        return Softification
+
+    def test_replace(self,target):
+        class DummyTargetException(Exception):
+            pass
+        class DummyReplacedException(Exception):
+            pass
+
+        softificate = target(DummyTargetException, DummyReplacedException)
+
+        with ShouldRaise(DummyReplacedException()):
+            softificate.__exit__(DummyTargetException, DummyTargetException(), None)
+
+    def test_reraise(self,target):
+        class DummyTargetException(Exception):
+            pass
+        class DummyReplacedException(Exception):
+            pass
+
+        softificate = target(DummyTargetException, DummyReplacedException)
+
+        with ShouldRaise(ImportError()):
+            softificate.__exit__(ImportError, ImportError(), None)

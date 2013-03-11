@@ -1,5 +1,23 @@
 from pyramid.httpexceptions import HTTPFound, HTTPBadRequest
 
+class Softification(object):
+    def __init__(self, targets, replacer):
+        self.targets = targets
+        self.replacer = replacer
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_val is None:
+            return
+
+        if isinstance(exc_val, self.targets):
+            raise self.replacer()
+
+        raise exc_type, exc_val, exc_tb
+
+
 class BaseView(object):
     def __init__(self, context, request):
         self.context = context
