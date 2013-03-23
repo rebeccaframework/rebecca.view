@@ -36,6 +36,9 @@ class ViewSupport(object):
     def redirect_route(self, route_name, **values):
         return self.redirect(self.request.route_url(route_name, **values))
 
+    def redirect_resource(self, model, *values, **kw):
+        return self.redirect(self.request.resource_url(model, *values, **kw))
+
     @property
     def body(self):
         return self.request.body
